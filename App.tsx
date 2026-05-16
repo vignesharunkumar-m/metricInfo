@@ -1,45 +1,44 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { hideSplash } from 'react-native-splash-view';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import CustomStatusBar from './Src/Components/CustomStatusBar';
+import LocationPermissionScreen from './Src/Screens/LocationPermissionScreen';
+import MainStack from './Src/Stack/MainStack';
+import { checkLocationPermission } from './Src/Utility/Permissions';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [locationGranted, setLocationGranted] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const initializeApp = async () => {
+      try {
+        const hasLocationPermission = await checkLocationPermission();
+        setLocationGranted(hasLocationPermission);
+      } catch (error) {
+        console.log('Init Error:', error);
+        setLocationGranted(false);
+      } finally {
+        hideSplash();
+      }
+    };
+
+    initializeApp();
+  }, []);
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+    <SafeAreaProvider style={{ flex: 1 }}>
+      <CustomStatusBar />
+      {locationGranted === null ? null : locationGranted ? (
+        <NavigationContainer>
+          <MainStack />
+        </NavigationContainer>
+      ) : (
+        <LocationPermissionScreen setLocationGranted={setLocationGranted} />
+      )}
     </SafeAreaProvider>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;

@@ -1,97 +1,150 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# MetricInfo
 
-# Getting Started
+MetricInfo is a React Native mobile app for employee attendance, location-based check-in/check-out, client listing, and date-wise attendance review. The app asks for location access, fetches the user's current coordinates, resolves the address through reverse geocoding, and stores check-in/check-out details locally for the current day.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## App Flow Explanation
 
-## Step 1: Start Metro
+1. On app launch, the app checks required location permission before showing the main application.
+2. On the Home screen, the app fetches the user's current GPS coordinates.
+3. The coordinates are sent to the configured reverse geocoding API to get a readable address.
+4. The current address is shown in the Home screen under `Current Location`.
+5. When the user taps Check In, the app captures check-in time, latitude, longitude, and resolved address.
+6. When the user taps Check Out, the app captures check-out time, latitude, longitude, and resolved address.
+7. Check-in/check-out data is stored locally using AsyncStorage under the current date.
+8. When the date changes, stale local attendance data is removed so the next day starts clean.
+9. In the Companies tab, the app requests company records with `limit: 10` and an offset.
+10. When the user scrolls near the end of the list, the next 10 records are fetched and appended.
+11. Tapping a company card opens the attendance calendar screen.
+12. The calendar fetches attendance records month by month.
+13. Present days show working hours when check-in and check-out times are available.
+14. Tapping a present day opens a bottom sheet with check-in/check-out details and locations.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## App Overview
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+The app is built around three main workflows:
+
+- Home attendance workflow: request location access, fetch current latitude/longitude, reverse geocode the location, and let the user check in or check out.
+- Companies workflow: load client/company records from the backend in paginated batches of 10 records.
+- Attendance calendar workflow: show date-wise attendance, highlight present/absent days, and open a bottom sheet with check-in/check-out details.
+
+## Features
+
+- Location permission flow before attendance actions.
+- Current location fetch using device GPS.
+- Reverse geocoding to convert latitude/longitude into a readable address.
+- Check-in and check-out with local storage of time, latitude, longitude, and address.
+- Local attendance state reset when the stored date no longer matches the current day.
+- Company list API integration with infinite scroll pagination.
+- Pull-to-refresh support for the company list.
+- Date-wise attendance calendar.
+- Attendance detail bottom sheet with date, working hours, check-in time, check-in location, check-out time, and check-out location.
+- Custom bottom tab navigation.
+- SVG icon support through `react-native-svg` and `react-native-svg-transformer`.
+
+## Tech Stack
+
+- React Native `0.85.3`
+- React `19.2.3`
+- TypeScript
+- React Navigation bottom tabs and stack navigation
+- Redux Toolkit and React Redux
+- Axios for API calls
+- AsyncStorage for local check-in/check-out storage
+- `@react-native-community/geolocation` for GPS coordinates
+- Reverse geocoding service configured in `Src/Services/LocationServices.ts`
+- Day.js for date and time formatting
+- Gorhom Bottom Sheet for attendance detail sheets
+- Firebase Messaging and Notifee for notification permission support
+- React Native SVG for vector icons
+
+## API Usage
+
+Base URL:
+
+```txt
+https://apex.metricinfo.com/ords/accounts/
+```
+
+Company list:
+
+```txt
+GET clientlist/getclient
+```
+
+Important params:
+
+```txt
+subscription_id=SUB22106
+EMPLOYEE_ID=177
+offset=0
+limit=10
+```
+
+Attendance day-wise:
+
+```txt
+GET attendance/getdaywise
+```
+
+Important params:
+
+```txt
+USER_ID=177
+FROM_DATE=YYYY-MM-DD
+TO_DATE=YYYY-MM-DD
+```
+
+Example:
+
+```txt
+attendance/getdaywise?USER_ID=177&FROM_DATE=2026-05-01&TO_DATE=2026-05-31
+```
+
+## Build Optimization
+
+- Company records are loaded 10 at a time to reduce initial payload size and keep list rendering smooth.
+- `FlatList` is used for company rendering with guarded pagination to avoid duplicate API calls during scroll.
+- Local check-in/check-out state is stored in AsyncStorage to avoid repeated setup during the same day.
+- SVG files are transformed into React Native components through `react-native-svg-transformer`.
+- Android release builds should keep R8 enabled to shrink, optimize, and remove unused bytecode.
+- ProGuard rules should be maintained in `android/app/proguard-rules.pro` for native libraries that require keep rules.
+- For release APKs, verify `minifyEnabled` and `shrinkResources` in `android/app/build.gradle` before publishing.
+- Run a release build test after enabling R8/ProGuard because aggressive shrinking can break reflection-based libraries if keep rules are missing.
+
+## APK Download Link
+
+APK builds are available here:
+
+[Google Drive APK Folder](https://drive.google.com/drive/u/0/folders/1i0EsXRI8qiecu--t77yVzOKt4swCkKs8)
+
+## Run Locally
+
+Install dependencies:
 
 ```sh
-# Using npm
+npm install
+```
+
+Start Metro:
+
+```sh
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
+Run Android:
 
 ```sh
-# Using npm
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+Run iOS:
 
 ```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Type-check:
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+```sh
+npx tsc --noEmit
+```

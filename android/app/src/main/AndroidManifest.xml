@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
       android:name=".MainApplication"
@@ -14,6 +18,7 @@
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
+        android:theme="@style/SplashTheme"
         android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
         android:launchMode="singleTask"
         android:windowSoftInputMode="adjustResize"
@@ -23,5 +28,13 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+
+      <service android:name="io.invertase.notifee.ScheduleAlarmService" />
+<receiver android:name="io.invertase.notifee.NotificationReceiver" android:exported="true"/>
+<receiver android:name="io.invertase.notifee.BootReceiver" android:exported="true" android:enabled="true">
+   <intent-filter>
+     <action android:name="android.intent.action.BOOT_COMPLETED"/>
+   </intent-filter>
+</receiver>
     </application>
 </manifest>

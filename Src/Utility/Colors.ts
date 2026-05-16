@@ -1,0 +1,18 @@
+export const COLORS = {
+  primary: '#6A06AC',
+  secondary: '#F1E8F7',
+  black: '#000000',
+  white: '#FFFFFF',
+  gray: '#808080',
+  green: '#148715',
+  red: '#FF0000',
+  disableColour: '#A9A9A9',
+  transparent: 'transparent',
+  screenBg: '#F2F2F2',
+  disableTextColor: '#696969',
+  placeHolderColor: '#525151',
+  textColor: '#414141',
+  pinkColor: '#FDE0E0',
+  lightGreen: '#D8F6D4',
+  transparentDimColor: 'rgba(0, 0, 0, 0.5)',
+};
