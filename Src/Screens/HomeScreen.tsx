@@ -1,35 +1,35 @@
+import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
-import SvgIcon from '../Components/SvgIcon';
-import StyledText from '../Components/StyledText';
-import CustomButton from '../Components/CustomButton';
+import dayjs from 'dayjs';
 import Geolocation from '@react-native-community/geolocation';
 
-import { COLORS } from '../Utility/Colors';
-import {
-  horizontalScale,
-  scaleSquare,
-  verticalScale,
-} from '../Hooks/useMetrices';
-import HOCView from '../Components/HOCView';
 import { FONTS } from '../Utility/Fonts';
-import { FONTSIZES } from '../Utility/FontSizes';
+import { COLORS } from '../Utility/Colors';
 import { IconType } from '../Utility/Icons';
+import SvgIcon from '../Components/SvgIcon';
+import HOCView from '../Components/HOCView';
+import { FONTSIZES } from '../Utility/FontSizes';
+import StyledText from '../Components/StyledText';
+import GlobalModal from '../Components/GlobalModal';
+import CustomButton from '../Components/CustomButton';
+import { USER_CHECK_IN_OUT_KEY } from '../Utility/Constants';
+import { getWorkedHoursLabel } from '../Utility/GeneralUtility';
+import ConfirmationModal from '../Components/ConfirmationModal';
 import { requestLocationPermission } from '../Utility/Permissions';
 import {
   getCurrentCoordinates,
   reverseGeocodeLocation,
 } from '../Services/LocationServices';
-import { USER_CHECK_IN_OUT_KEY } from '../Utility/Constants';
 import {
+  storeInLocalStorage,
   removeFromLocalStorage,
   retrieveFromLocalStorage,
-  storeInLocalStorage,
 } from '../Utility/SecureStore';
-import dayjs from 'dayjs';
-import { getWorkedHoursLabel } from '../Utility/GeneralUtility';
-import GlobalModal from '../Components/GlobalModal';
-import ConfirmationModal from '../Components/ConfirmationModal';
+import {
+  scaleSquare,
+  verticalScale,
+  horizontalScale,
+} from '../Hooks/useMetrices';
 
 export type userInfoProps = {
   id: number;

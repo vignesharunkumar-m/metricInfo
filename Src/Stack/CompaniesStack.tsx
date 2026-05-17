@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import CompaniesScreen from '../Screens/CompaniesScreen';
-import { CompaniesStackParamsList } from '../@types/NavigationTypes';
 import { createStackNavigator } from '@react-navigation/stack';
 import CalendarScreen from '../Screens/CalendarScreen';
+import CompaniesScreen from '../Screens/CompaniesScreen';
+import { CompaniesStackParamsList } from '../@types/NavigationTypes';
 
 const Stack = createStackNavigator<CompaniesStackParamsList>();
 

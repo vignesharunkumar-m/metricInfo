@@ -6,25 +6,25 @@ import {
   View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
+import { FONTS } from '../Utility/Fonts';
+import { COLORS } from '../Utility/Colors';
 import HOCView from '../Components/HOCView';
 import SvgIcon from '../Components/SvgIcon';
-import StyledText from '../Components/StyledText';
-import IconWithStyledText from '../Components/IconWithStyledText';
-import ListEmptyComponent from '../Components/ListEmptyComponent';
-import ListFooterComponent from '../Components/ListFooterComponent';
-import useLoaderHook from '../Hooks/useLoaderHook';
-import { GetClientServices } from '../Services/ApiServices';
-import { COLORS } from '../Utility/Colors';
-import { ACTIVE_OPACITY, BOX_SHADOW } from '../Utility/Constants';
-import { FONTS } from '../Utility/Fonts';
-import { getSubStringText } from '../Utility/GeneralUtility';
 import { useInsets } from '../Utility/StoreData';
+import StyledText from '../Components/StyledText';
+import useLoaderHook from '../Hooks/useLoaderHook';
 import TextInputBox from '../Components/TextInputBox';
 import { moderateScale } from '../Hooks/useMetrices';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { GetClientServices } from '../Services/ApiServices';
+import { getSubStringText } from '../Utility/GeneralUtility';
+import IconWithStyledText from '../Components/IconWithStyledText';
+import { ACTIVE_OPACITY, BOX_SHADOW } from '../Utility/Constants';
+import ListEmptyComponent from '../Components/ListEmptyComponent';
+import ListFooterComponent from '../Components/ListFooterComponent';
 import { CompaniesStackParamsList } from '../@types/NavigationTypes';
-import { useNavigation } from '@react-navigation/native';
 
 const PAGE_LIMIT = 10;
 
@@ -234,12 +234,6 @@ const CompaniesScreen = () => {
             borderRadius: moderateScale(50),
           }}
           iconSize={18}
-          //   onChangeText={searchText => {
-          //     setsearchText(searchText);
-          //     setisListLoading(true);
-          //     handleSearchDebounce(searchText);
-          //   }}
-          //   value={searchText}
           placeHolder="Search..."
           LeftIcon="searchIcon"
           borderColor={COLORS.transparent}

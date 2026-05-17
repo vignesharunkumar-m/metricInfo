@@ -1,7 +1,7 @@
 import { Linking, PermissionsAndroid } from 'react-native';
-import { IS_IOS } from './Constants';
-import messaging from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
+import messaging from '@react-native-firebase/messaging';
+import { IS_IOS } from './Constants';
 
 export async function requestLocationPermission() {
   if (IS_IOS) {

@@ -12,32 +12,32 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
-import HOCView from '../Components/HOCView';
-import StyledText from '../Components/StyledText';
-import { GetAttendanceDayWiseService } from '../Services/ApiServices';
-import { useInsets } from '../Utility/StoreData';
-import { COLORS } from '../Utility/Colors';
-import { FONTS } from '../Utility/Fonts';
-import { FONTSIZES } from '../Utility/FontSizes';
-import {
-  moderateScale,
-  scaleSquare,
-  verticalScale,
-} from '../Hooks/useMetrices';
-import { getWorkedHoursLabel } from '../Utility/GeneralUtility';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+import { FONTS } from '../Utility/Fonts';
+import { COLORS } from '../Utility/Colors';
+import HOCView from '../Components/HOCView';
+import RowText from '../Components/RowText';
+import { FONTSIZES } from '../Utility/FontSizes';
+import { useInsets } from '../Utility/StoreData';
+import StyledText from '../Components/StyledText';
+import BottomSheet from '../Components/BottomSheet';
+import { getWorkedHoursLabel } from '../Utility/GeneralUtility';
+import { useBottomTabsContext } from '../Context/BottomTabsProvider';
+import { GetAttendanceDayWiseService } from '../Services/ApiServices';
 import {
+  scaleSquare,
+  moderateScale,
+  verticalScale,
+} from '../Hooks/useMetrices';
+import {
+  WEEK_DAYS,
+  MONTH_NAME_MAP,
   ACTIVE_OPACITY,
   API_DATE_FORMAT,
   ATTENDANCE_DATE_FORMAT,
-  MONTH_NAME_MAP,
-  WEEK_DAYS,
 } from '../Utility/Constants';
-import BottomSheet from '../Components/BottomSheet';
-import RowText from '../Components/RowText';
-import { useBottomTabsContext } from '../Context/BottomTabsProvider';
 
 dayjs.extend(customParseFormat);
 
@@ -60,14 +60,11 @@ export type AttendanceItem = {
   userid: string;
   userfullname: string;
   attendancedate: string;
-
   intime: string;
   outtime: string;
-
   checkinloclocation: string;
   checkinloclatitude: string;
   checkinloclongitude: string;
-
   checkoutloclatitude: string | null;
   checkoutloclongitude: string | null;
   checkoutloclocation: string;
@@ -80,12 +77,10 @@ export type AttendanceLink = {
 
 export type AttendanceResponse = {
   items: AttendanceItem[];
-
   hasMore: boolean;
   limit: number;
   offset: number;
   count: number;
-
   links: AttendanceLink[];
 };
 
@@ -152,7 +147,6 @@ const CalendarScreen = () => {
   const today = useMemo(() => getToday(), []);
   const bottomSheetModalRef = useRef<any>(null);
   const { setIsOpen } = useBottomTabsContext();
-
   const [currentMonth, setCurrentMonth] = useState<Dayjs>(() =>
     today.startOf('month'),
   );

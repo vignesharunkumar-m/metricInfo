@@ -1,22 +1,24 @@
 import { AppState, AppStateStatus, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
+
+import { FONTS } from '../Utility/Fonts';
+import { COLORS } from '../Utility/Colors';
 import SvgIcon from '../Components/SvgIcon';
+import { FONTSIZES } from '../Utility/FontSizes';
+import { BOX_SHADOW } from '../Utility/Constants';
 import StyledText from '../Components/StyledText';
 import CustomButton from '../Components/CustomButton';
+import { verticalScale } from '../Hooks/useMetrices';
 import {
   checkLocationPermission,
   requestLocationPermission,
   requestNotificationPermission,
 } from '../Utility/Permissions';
-import { verticalScale } from '../Hooks/useMetrices';
-import { COLORS } from '../Utility/Colors';
-import { BOX_SHADOW } from '../Utility/Constants';
-import { FONTS } from '../Utility/Fonts';
-import { FONTSIZES } from '../Utility/FontSizes';
 
 export type LocationPermissionScreenProps = {
   setLocationGranted: (granted: boolean) => void;
 };
+
 const appState = React.createRef<AppStateStatus>();
 
 const LocationPermissionScreen = ({
@@ -103,8 +105,6 @@ const styles = StyleSheet.create({
   content: {
     color: COLORS.black,
     fontSize: FONTSIZES.small,
-    // fontFamily: FONTS.regular,
-    // lineHeight: 1,
     textAlign: 'center',
   },
 });

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  StoreIsLoadingParams,
-  UtilityReducerProps,
-} from '../../@types/ReducerTypes';
 import { LOADING_TEXT } from '../../Utility/Constants';
+import {
+  UtilityReducerProps,
+  StoreIsLoadingParams,
+} from '../../@types/ReducerTypes';
 
 const initialState: UtilityReducerProps = {
   insets: {

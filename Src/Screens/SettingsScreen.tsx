@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
+
+import { FONTS } from '../Utility/Fonts';
 import HOCView from '../Components/HOCView';
 import StyledText from '../Components/StyledText';
 import { FONTSIZES } from '../Utility/FontSizes';
-import { FONTS } from '../Utility/Fonts';
 
 const SettingsScreen = () => {
   return (
